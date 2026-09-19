@@ -280,6 +280,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
 
             <div className="pt-3 mt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+              {onOpenShareCard && (
+                <button
+                  id="mobile-nav-share-btn"
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenShareCard();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <Share2 className="w-4 h-4 text-cyan-500" />
+                  <span>{language === 'km' ? 'ចែករំលែក Social Card' : 'Share Social Card'}</span>
+                </button>
+              )}
+
               <button
                 id="mobile-nav-resume-btn"
                 type="button"
