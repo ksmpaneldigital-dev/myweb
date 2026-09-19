@@ -3,8 +3,8 @@ import { PortfolioData } from '../types';
 export const portfolio: PortfolioData = {
   personal: {
     name: 'KIMSAN',
-    title: 'DEVELOPMENT FULL STACK AND SOFTWARE WITH AI',
-    role: 'DEVELOPMENT FULL STACK AND SOFTWARE WITH AI',
+    title: 'Senior Full-Stack Developer',
+    role: 'Full-Stack Architect & Frontend Specialist',
     tagline: 'Crafting scalable web systems, intuitive interfaces, and high-performance software.',
     description:
       'I architect and build modern, scalable web applications and software solutions with high performance, elegant UI, and rock-solid reliability.',

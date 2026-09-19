@@ -161,7 +161,7 @@ export function setMetaTag(
 export function updateDocumentMetadata(config: SEOConfig): void {
   if (typeof document === 'undefined') return;
 
-  const { title, description, language = 'en' } = config;
+  const { title, description, language = 'en', image, url } = config;
 
   // 1. Update Document Title
   if (title && document.title !== title) {
@@ -180,6 +180,16 @@ export function updateDocumentMetadata(config: SEOConfig): void {
   if (description) {
     setMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
   }
+  if (image) {
+    setMetaTag('meta[property="og:image"]', 'property', 'og:image', image);
+    setMetaTag('meta[property="og:image:width"]', 'property', 'og:image:width', '1200');
+    setMetaTag('meta[property="og:image:height"]', 'property', 'og:image:height', '630');
+    setMetaTag('meta[property="og:image:alt"]', 'property', 'og:image:alt', `${title} - Social Preview Card`);
+  }
+  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
+  if (currentUrl) {
+    setMetaTag('meta[property="og:url"]', 'property', 'og:url', currentUrl);
+  }
 
   // 4. Update Twitter Card Tags
   if (title) {
@@ -188,6 +198,10 @@ export function updateDocumentMetadata(config: SEOConfig): void {
   if (description) {
     setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
   }
+  if (image) {
+    setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', image);
+  }
+  setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
 
   // 5. Update HTML lang attribute
   if (document.documentElement) {

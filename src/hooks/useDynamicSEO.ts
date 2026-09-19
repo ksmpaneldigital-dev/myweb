@@ -7,6 +7,8 @@ import {
   updateDocumentMetadata,
   getSectionSEO,
 } from '../utils/seo';
+import { generateSocialCard } from '../utils/ogImage';
+import { portfolio } from '../data/portfolio';
 
 export interface UseDynamicSEOOptions {
   language: Language;
@@ -101,19 +103,61 @@ export function useDynamicSEO({
     };
   }, [autoObserve, manualActiveSection, sectionOffset]);
 
-  // Sync document title and meta description tags whenever currentSection or language changes
+  // Sync document title, meta description, and dynamic OG/Twitter card image whenever currentSection or language changes
   useEffect(() => {
+    let isCancelled = false;
+
     if (customOverrideRef.current) {
       updateDocumentMetadata(customOverrideRef.current);
       return;
     }
 
     const seo = getSectionSEO(currentSection, language);
+    const { personal } = portfolio;
+
+    const sectionLabels: Record<string, string> = {
+      home: language === 'km' ? 'ផលប័ត្រចម្បង' : 'Portfolio Showcase',
+      about: language === 'km' ? 'អំពីវិស្វករ' : 'About Architect',
+      skills: language === 'km' ? 'ជំនាញបច្ចេកវិទ្យា' : 'Skills & Tech Stack',
+      services: language === 'km' ? 'សេវាកម្មវិស្វកម្ម' : 'Services & Architecture',
+      projects: language === 'km' ? 'ស្នាដៃ & គម្រោង' : 'Featured Projects',
+      'code-architecture': language === 'km' ? 'ស្ថាបត្យកម្មកូដ' : 'Architecture & Clean Code',
+      experience: language === 'km' ? 'បទពិសោធន៍ការងារ' : 'Career Experience',
+      education: language === 'km' ? 'ការអប់រំ និងសញ្ញាបត្រ' : 'Education & Certifications',
+      testimonials: language === 'km' ? 'ការវាយតម្លៃអតិថិជន' : 'Client Testimonials',
+      faq: language === 'km' ? 'សំណួរដែលសួរញឹកញាប់' : 'FAQ & Knowledge Base',
+      contact: language === 'km' ? 'ទំនាក់ទំនងការងារ' : 'Contact & Collaboration',
+    };
+
+    // First update text immediately to keep UX snappy
     updateDocumentMetadata({
       title: seo.title,
       description: seo.description,
       language,
     });
+
+    // Then dynamically generate custom high-res OpenGraph card with name, title, avatar, and active section badge
+    generateSocialCard({
+      name: personal.name,
+      title: personal.title,
+      subtitle: seo.description,
+      sectionBadge: sectionLabels[currentSection] || 'Software Engineer',
+      avatarUrl: personal.avatar || '/images/profile.png',
+      highlights: ['React & TypeScript', 'Node.js & Laravel', 'Cloud Systems', 'UI/UX Engineering'],
+    }).then((cardDataUrl) => {
+      if (!isCancelled && cardDataUrl) {
+        updateDocumentMetadata({
+          title: seo.title,
+          description: seo.description,
+          language,
+          image: cardDataUrl,
+        });
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [currentSection, language]);
 
   // Optional manual override function

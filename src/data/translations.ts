@@ -199,7 +199,6 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       available: 'Available for New Projects & Contracts',
       greeting: 'Hello, I am',
       roles: [
-        'DEVELOPMENT FULL STACK AND SOFTWARE WITH AI',
         'Senior Full-Stack Developer',
         'React & TypeScript Specialist',
         'Laravel & Distributed API Architect',
@@ -388,7 +387,6 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       available: 'ត្រៀមខ្លួនរួចរាល់សម្រាប់គម្រោងថ្មី និងកិច្ចសន្យាការងារ',
       greeting: 'សួស្តី ខ្ញុំបាទគឺ',
       roles: [
-        'DEVELOPMENT FULL STACK AND SOFTWARE WITH AI',
         'អ្នកអភិវឌ្ឍន៍ Full-Stack ជាន់ខ្ពស់',
         'អ្នកជំនាញ React និង TypeScript',
         'ស្ថាបត្យករប្រព័ន្ធ Laravel និង Distributed APIs',

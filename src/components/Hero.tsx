@@ -246,7 +246,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
 
           {/* Right Column: Profile Presentation & Floating Badges */}
           <motion.div
-            className="lg:col-span-5 relative flex flex-col items-center lg:items-end justify-center"
+            className="lg:col-span-5 relative flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -284,8 +284,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
                   {/* Bottom Avatar Caption */}
                   <div className="absolute bottom-2.5 left-2.5 right-2.5 p-2 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 flex items-center justify-between">
                     <div className="min-w-0 pr-1">
-                      <p className="text-xs font-bold text-white truncate">📍 {personal.name}</p>
-                      <p className="text-[10px] text-indigo-400 truncate font-semibold">DEVELOPMENT FULL STACK AND SOFTWARE WITH AI</p>
+                      <p className="text-xs font-bold text-white truncate">{personal.name}</p>
+                      <p className="text-[10px] text-indigo-400 truncate font-medium">{personal.role}</p>
                     </div>
                     <span className="shrink-0 text-[10px] font-semibold text-slate-400 group-hover/avatar:text-white flex items-center gap-0.5">
                       <ZoomIn className="w-3 h-3 text-indigo-400" />
@@ -339,31 +339,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
                 </div>
               </motion.div>
             </div>
-
-            {/* Information Card Under Profile */}
-            <motion.div
-              id="hero-profile-info-under"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-              className="mt-6 w-56 sm:w-64 md:w-72 p-3 sm:p-3.5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-slate-950/60 backdrop-blur-md"
-            >
-              <div className="space-y-2 text-left font-sans">
-                <div className="flex items-center gap-2">
-                  <span className="text-base select-none">📍</span>
-                  <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <span className="text-slate-500 dark:text-slate-400 font-semibold text-xs">Name:</span>
-                    <span className="font-extrabold text-indigo-600 dark:text-indigo-400">KIMSAN</span>
-                  </p>
-                </div>
-                <div className="flex items-start gap-2 pt-1.5 border-t border-slate-100 dark:border-slate-800/80">
-                  <span className="text-base select-none mt-0.5">📍</span>
-                  <p className="text-[11px] sm:text-xs font-black tracking-tight text-slate-800 dark:text-slate-100 uppercase leading-snug">
-                    DEVELOPMENT FULL STACK AND SOFTWARE WITH AI
-                  </p>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -414,12 +389,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-4 py-2.5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-slate-400">
-                <div className="space-y-0.5">
-                  <p className="font-semibold text-white">📍 Name: KIMSAN</p>
-                  <p className="text-indigo-400 font-bold text-[11px]">📍 DEVELOPMENT FULL STACK AND SOFTWARE WITH AI</p>
-                </div>
-                <span className="text-[11px] text-slate-500 font-mono shrink-0">1200 x 1200 High Resolution</span>
+              <div className="px-4 py-2.5 border-t border-slate-800 bg-slate-900/90 flex items-center justify-between text-xs text-slate-400">
+                <span>{personal.role}</span>
+                <span className="text-[11px] text-indigo-400 font-mono">1200 x 1200 High Resolution</span>
               </div>
             </motion.div>
           </motion.div>

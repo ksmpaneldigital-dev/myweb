@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, Server, Search, Globe } from 'lucide-react';
+import { Menu, X, FileText, Server, Search, Globe, Share2 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { ThemeMode, Language } from '../types';
 import { TranslationDictionary } from '../data/translations';
@@ -11,6 +11,7 @@ interface NavbarProps {
   toggleTheme: () => void;
   onOpenResume: () => void;
   onOpenCommandPalette: () => void;
+  onOpenShareCard?: () => void;
   language: Language;
   toggleLanguage: () => void;
   t: TranslationDictionary;
@@ -23,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   toggleTheme,
   onOpenResume,
   onOpenCommandPalette,
+  onOpenShareCard,
   language,
   toggleLanguage,
   t,
@@ -162,6 +164,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               ⌘K
             </kbd>
           </button>
+
+          {/* Share Card Modal Trigger */}
+          {onOpenShareCard && (
+            <button
+              id="navbar-share-btn"
+              type="button"
+              onClick={onOpenShareCard}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              title="Generate & Share Social Media Card (OpenGraph)"
+            >
+              <Share2 className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
+              <span className="hidden lg:inline">{language === 'km' ? 'ចែករំលែក' : 'Share'}</span>
+            </button>
+          )}
 
           {/* Language Switcher */}
           <button
