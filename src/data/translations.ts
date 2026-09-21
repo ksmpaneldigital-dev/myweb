@@ -63,6 +63,8 @@ export interface TranslationDictionary {
     title: string;
     subtitle: string;
     searchPlaceholder: string;
+    fuzzySearchActive: string;
+    clearSearch: string;
     filterByStack: string;
     filterByTag: string;
     allStacks: string;
@@ -257,7 +259,9 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       badge: 'Featured Portfolio',
       title: 'Recent Work & Engineering Case Studies',
       subtitle: 'Explore production web platforms, API engines, administrative dashboards, and desktop tools built with modern best practices.',
-      searchPlaceholder: 'Search projects by name, keyword, or tech...',
+      searchPlaceholder: 'Fuzzy search by title, description, keywords, or tech...',
+      fuzzySearchActive: 'Fuzzy search active (typo-tolerant)',
+      clearSearch: 'Clear search',
       filterByStack: 'Tech Stack Filter:',
       filterByTag: 'Filter by Tech:',
       allStacks: 'All Stacks',
@@ -453,7 +457,9 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       badge: 'ផលប័ត្រស្នាដៃ',
       title: 'គម្រោងការងារថ្មីៗ និងករណីសិក្សាវិស្វកម្ម',
       subtitle: 'ស្វែងយល់ពីប្រព័ន្ធគេហទំព័រក្នុងផលិតកម្ម ម៉ាស៊ីន API ផ្ទាំងគ្រប់គ្រងរដ្ឋបាល និងឧបករណ៍ Desktop ដែលសាងសង់តាមស្តង់ដារល្អបំផុត។',
-      searchPlaceholder: 'ស្វែងរកគម្រោងតាមឈ្មោះ ឬបច្ចេកវិទ្យា...',
+      searchPlaceholder: 'ស្វែងរកគម្រោងតាមចំណងជើង ការពិពណ៌នា ឬបច្ចេកវិទ្យា...',
+      fuzzySearchActive: 'ការស្វែងរកបែប Fuzzy កំពុងដំណើរការ (អត់ធ្មត់លើកំហុសអក្ខរាវិរុទ្ធ)',
+      clearSearch: 'សម្អាតការស្វែងរក',
       filterByStack: 'ច្រោះតាមបច្ចេកវិទ្យាស្នូល (Tech Stack)៖',
       filterByTag: 'ច្រោះតាមបច្ចេកវិទ្យា៖',
       allStacks: 'Tech Stack ទាំងអស់',

@@ -11,15 +11,11 @@ import {
   Sparkles,
   Terminal,
   Database,
-  Mail,
-  Copy,
-  Check,
   ZoomIn,
   X,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { TranslationDictionary } from '../data/translations';
-import { useToast } from './Toast';
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -29,9 +25,42 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
   const { personal, social } = portfolio;
   const [roleIndex, setRoleIndex] = useState(0);
-  const [copiedEmail, setCopiedEmail] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
-  const { showToast } = useToast();
+
+  const typingGreeting = 'Hello What can I help you today ';
+  const [typedMessage, setTypedMessage] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Typewriter effect for greeting pill
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting) {
+      if (typedMessage.length < typingGreeting.length) {
+        timeout = setTimeout(() => {
+          setTypedMessage(typingGreeting.slice(0, typedMessage.length + 1));
+        }, 75);
+      } else {
+        // Pause when full sentence is typed
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2500);
+      }
+    } else {
+      if (typedMessage.length > 0) {
+        timeout = setTimeout(() => {
+          setTypedMessage(typingGreeting.slice(0, typedMessage.length - 1));
+        }, 35);
+      } else {
+        // Pause before typing again
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+        }, 600);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [typedMessage, isDeleting, typingGreeting]);
 
   const roles = t.hero.roles || [
     'Senior Full-Stack Developer',
@@ -46,14 +75,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
     }, 3200);
     return () => clearInterval(timer);
   }, [roles.length]);
-
-  const handleCopyEmail = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigator.clipboard.writeText(personal.email);
-    setCopiedEmail(true);
-    showToast(t.hero.emailCopied || 'Email copied to clipboard!');
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
 
   const scrollToProjects = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -89,7 +110,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            {/* Status Pill with Quick Copy Email */}
+            {/* Status Pill & Interactive Typing Greeting */}
             <div className="flex flex-wrap items-center gap-2.5 mb-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
                 <span className="relative flex h-2 w-2">
@@ -99,25 +120,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, t }) => {
                 <span>{t.hero.available || personal.availability}</span>
               </div>
 
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 hover:border-indigo-500/40 text-xs font-medium text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
-                title="Click to copy email address"
-              >
-                {copiedEmail ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-500" />
-                    <span className="text-emerald-500 font-semibold">{t.hero.emailCopied}</span>
-                  </>
-                ) : (
-                  <>
-                    <Mail className="w-3.5 h-3.5 text-indigo-500" />
-                    <span className="font-mono">{personal.email}</span>
-                    <Copy className="w-3 h-3 text-slate-400 ml-0.5" />
-                  </>
-                )}
-              </button>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 text-xs font-medium text-slate-600 dark:text-slate-300 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                <span className="font-mono text-slate-700 dark:text-slate-200 inline-flex items-center">
+                  <span>{typedMessage}</span>
+                  <span className="inline-block w-1.5 h-3.5 ml-0.5 bg-indigo-500 rounded-xs animate-pulse" />
+                </span>
+              </div>
             </div>
 
             {/* Main Greeting */}
