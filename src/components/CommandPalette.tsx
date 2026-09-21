@@ -16,6 +16,10 @@ import {
   Terminal,
   ExternalLink,
   Share2,
+  Send,
+  Facebook,
+  Linkedin,
+  Youtube,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ThemeMode, Language } from '../types';
@@ -253,6 +257,28 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
     // Connect
     {
+      id: 'connect-telegram',
+      title: 'Chat on Telegram',
+      subtitle: portfolio.social.telegram,
+      category: 'Connect',
+      icon: <Send className="w-4 h-4 text-sky-400" />,
+      action: () => {
+        window.open(portfolio.social.telegram, '_blank', 'noopener,noreferrer');
+        onClose();
+      },
+    },
+    {
+      id: 'connect-facebook',
+      title: 'Open Facebook Profile',
+      subtitle: portfolio.social.facebook,
+      category: 'Connect',
+      icon: <Facebook className="w-4 h-4 text-blue-500" />,
+      action: () => {
+        window.open(portfolio.social.facebook, '_blank', 'noopener,noreferrer');
+        onClose();
+      },
+    },
+    {
       id: 'connect-github',
       title: 'Open GitHub Profile',
       subtitle: portfolio.social.github,
@@ -260,6 +286,28 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       icon: <Github className="w-4 h-4 text-slate-400" />,
       action: () => {
         window.open(portfolio.social.github, '_blank', 'noopener,noreferrer');
+        onClose();
+      },
+    },
+    {
+      id: 'connect-linkedin',
+      title: 'Open LinkedIn Profile',
+      subtitle: portfolio.social.linkedin,
+      category: 'Connect',
+      icon: <Linkedin className="w-4 h-4 text-blue-400" />,
+      action: () => {
+        window.open(portfolio.social.linkedin, '_blank', 'noopener,noreferrer');
+        onClose();
+      },
+    },
+    {
+      id: 'connect-youtube',
+      title: 'Open YouTube Channel',
+      subtitle: portfolio.social.youtube,
+      category: 'Connect',
+      icon: <Youtube className="w-4 h-4 text-rose-500" />,
+      action: () => {
+        window.open(portfolio.social.youtube, '_blank', 'noopener,noreferrer');
         onClose();
       },
     },

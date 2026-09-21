@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Code2, Copy, Check, Terminal, ShieldCheck, Zap, Layers } from 'lucide-react';
+import { Code2, Copy, Check, Terminal, ShieldCheck, Zap, Layers, Clock } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { useToast } from './Toast';
 import { TranslationDictionary } from '../data/translations';
+import { calculateReadingTime } from '../utils/readingTime';
 
 interface CodeShowcaseProps {
   t: TranslationDictionary;
@@ -16,6 +17,19 @@ export const CodeShowcase: React.FC<CodeShowcaseProps> = ({ t }) => {
 
   const snippets = portfolio.codeSnippets || [];
   const currentSnippet = snippets[activeSnippetIndex] || snippets[0];
+
+  const currentReadingTime = currentSnippet
+    ? calculateReadingTime(
+        [
+          currentSnippet.title,
+          currentSnippet.description,
+          ...(currentSnippet.architectureHighlights || []),
+          currentSnippet.code,
+        ],
+        190,
+        t.code.readTimeSuffix || 'min read'
+      )
+    : null;
 
   const handleCopy = () => {
     if (!currentSnippet) return;
@@ -81,6 +95,15 @@ export const CodeShowcase: React.FC<CodeShowcaseProps> = ({ t }) => {
               <span className="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-indigo-400 border border-slate-700">
                 {currentSnippet.language}
               </span>
+              {currentReadingTime && (
+                <span
+                  className="inline-flex items-center gap-1.5 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800/90 text-slate-300 border border-slate-700"
+                  title={`Estimated review time based on explanation and code: ~${currentReadingTime.words} words`}
+                >
+                  <Clock className="w-3 h-3 text-cyan-400" />
+                  <span>{currentReadingTime.text}</span>
+                </span>
+              )}
               <button
                 type="button"
                 onClick={handleCopy}
@@ -111,6 +134,16 @@ export const CodeShowcase: React.FC<CodeShowcaseProps> = ({ t }) => {
               <p className="text-xs text-slate-400 mt-1 max-w-2xl leading-relaxed">
                 {currentSnippet.description}
               </p>
+              {currentReadingTime && (
+                <div className="flex items-center gap-3 mt-2.5 text-[11px] font-mono text-slate-400">
+                  <span className="inline-flex items-center gap-1.5 text-indigo-400 font-semibold">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>{currentReadingTime.text}</span>
+                  </span>
+                  <span className="text-slate-700">•</span>
+                  <span className="text-slate-500">~{currentReadingTime.words} words</span>
+                </div>
+              )}
             </div>
 
             {/* Architecture Highlights */}

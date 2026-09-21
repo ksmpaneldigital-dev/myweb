@@ -199,6 +199,8 @@ Summary:  ${portfolio.personal.description}`,
   Email:    ${portfolio.personal.email}
   Phone:    ${portfolio.personal.phone}
   Telegram: ${portfolio.social.telegram}
+  Facebook: ${portfolio.social.facebook}
+  YouTube:  ${portfolio.social.youtube}
   GitHub:   ${portfolio.social.github}`,
         });
         break;

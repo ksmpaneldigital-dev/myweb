@@ -14,6 +14,8 @@ import {
   Copy,
   Check,
   ExternalLink,
+  Facebook,
+  Youtube,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { TranslationDictionary } from '../data/translations';
@@ -298,11 +300,61 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
                           {t.contact.telegramLabel}
                         </p>
                         <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-sky-500 transition-colors">
-                          @kimsandev
+                          @{social.telegram.split('/').filter(Boolean).pop()?.replace(/^@/, '') || 'kim_san145'}
                         </p>
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-sky-500 transition-colors" />
+                  </a>
+                )}
+
+                {/* Facebook Card */}
+                {social.facebook && (
+                  <a
+                    href={social.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-500/40 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                        <Facebook className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500">
+                          {t.contact.facebookLabel}
+                        </p>
+                        <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          Facebook Profile
+                        </p>
+                      </div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+                  </a>
+                )}
+
+                {/* YouTube Card */}
+                {social.youtube && (
+                  <a
+                    href={social.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 hover:border-rose-500/40 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+                        <Youtube className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500">
+                          {t.contact.youtubeLabel}
+                        </p>
+                        <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                          @kimsan2000
+                        </p>
+                      </div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors" />
                   </a>
                 )}
 

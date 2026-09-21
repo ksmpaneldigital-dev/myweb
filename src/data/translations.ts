@@ -73,6 +73,7 @@ export interface TranslationDictionary {
     liveDemo: string;
     sourceCode: string;
     details: string;
+    readTimeSuffix: string;
     noResults: string;
     resetFilters: string;
   };
@@ -99,6 +100,7 @@ export interface TranslationDictionary {
     copyCode: string;
     copied: string;
     architectureNotes: string;
+    readTimeSuffix: string;
   };
   faq: {
     badge: string;
@@ -125,6 +127,8 @@ export interface TranslationDictionary {
     emailLabel: string;
     phoneLabel: string;
     telegramLabel: string;
+    facebookLabel: string;
+    youtubeLabel: string;
     locationLabel: string;
     quickTurnaround: string;
     formTitle: string;
@@ -262,6 +266,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       liveDemo: 'Live Demo',
       sourceCode: 'Source',
       details: 'Architecture Details',
+      readTimeSuffix: 'min read',
       noResults: 'No projects found matching your filters.',
       resetFilters: 'Reset All Filters',
     },
@@ -288,6 +293,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       copyCode: 'Copy Snippet',
       copied: 'Code Copied!',
       architectureNotes: 'Why This Architecture Matters:',
+      readTimeSuffix: 'min read',
     },
     faq: {
       badge: 'Frequently Asked Questions',
@@ -316,6 +322,8 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       emailLabel: 'Email Address',
       phoneLabel: 'Phone / WhatsApp',
       telegramLabel: 'Telegram Instant Chat',
+      facebookLabel: 'Facebook Page & Direct',
+      youtubeLabel: 'YouTube Channel & Tutorials',
       locationLabel: 'Based In',
       quickTurnaround: 'Average response time is within 4–12 business hours.',
       formTitle: 'Send a Direct Message',
@@ -452,6 +460,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       liveDemo: 'មើលគេហទំព័រផ្ទាល់',
       sourceCode: 'កូដប្រភព',
       details: 'ព័ត៌មានលម្អិតអំពីស្ថាបត្យកម្ម',
+      readTimeSuffix: 'នាទីអាន',
       noResults: 'រកមិនឃើញគម្រោងដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ។',
       resetFilters: 'កំណត់តម្រងឡើងវិញ',
     },
@@ -478,6 +487,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       copyCode: 'ចម្លងកូដ',
       copied: 'បានចម្លងកូដរួចរាល់!',
       architectureNotes: 'សារៈសំខាន់នៃស្ថាបត្យកម្មនេះ៖',
+      readTimeSuffix: 'នាទីអាន',
     },
     faq: {
       badge: 'សំណួរដែលសួរញឹកញាប់ (FAQ)',
@@ -506,6 +516,8 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       emailLabel: 'អាសយដ្ឋានអ៊ីមែល',
       phoneLabel: 'ទូរស័ព្ទ / WhatsApp',
       telegramLabel: 'តេឡេក្រាម',
+      facebookLabel: 'ហ្វេសប៊ុក (Facebook)',
+      youtubeLabel: 'ឆានែលយូធូប (YouTube)',
       locationLabel: 'ទីតាំងរស់នៅ',
       quickTurnaround: 'ពេលវេលាឆ្លើយតបជាមធ្យមគឺក្នុងរយៈពេល ៤ ដល់ ១២ ម៉ោងធ្វើការ។',
       formTitle: 'ផ្ញើសារផ្ទាល់មកកាន់ខ្ញុំ',

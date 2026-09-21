@@ -22,11 +22,13 @@ import {
   Server,
   Cloud,
   Terminal as TerminalIcon,
+  Clock,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ProjectCategory, ProjectItem } from '../types';
 import { TranslationDictionary } from '../data/translations';
 import { useToast } from './Toast';
+import { calculateReadingTime } from '../utils/readingTime';
 
 interface ProjectsProps {
   t: TranslationDictionary;
@@ -485,9 +487,32 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
 
                         {/* Content Body */}
                         <div className="p-5 sm:p-6">
-                          <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                            {project.title}
-                          </h3>
+                          <div className="flex items-start justify-between gap-3">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                              {project.title}
+                            </h3>
+                            {(() => {
+                              const readTime = calculateReadingTime(
+                                [
+                                  project.title,
+                                  project.longDescription || project.description,
+                                  project.metrics,
+                                  ...project.tags,
+                                ],
+                                200,
+                                t.projects.readTimeSuffix || 'min read'
+                              );
+                              return (
+                                <span
+                                  className="shrink-0 inline-flex items-center gap-1 text-[11px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/90 px-2 py-0.5 rounded-md border border-slate-200/80 dark:border-slate-700/80"
+                                  title={`Estimated reading time: ~${readTime.words} words`}
+                                >
+                                  <Clock className="w-3 h-3 text-indigo-500 dark:text-indigo-400" />
+                                  <span>{readTime.text}</span>
+                                </span>
+                              );
+                            })()}
+                          </div>
                           <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                             {project.description}
                           </p>
@@ -685,9 +710,36 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
 
                       {/* Detailed Description */}
                       <div>
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-2">
-                          Engineering Overview
-                        </h4>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                            Engineering Overview
+                          </h4>
+                          {(() => {
+                            const modalReadingTime = calculateReadingTime(
+                              [
+                                selectedProject.title,
+                                selectedProject.longDescription || selectedProject.description,
+                                selectedProject.metrics,
+                                ...selectedProject.tags,
+                              ],
+                              190,
+                              t.projects.readTimeSuffix || 'min read'
+                            );
+                            return (
+                              <span
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+                                title="Estimated reading time for this case study"
+                              >
+                                <Clock className="w-3.5 h-3.5 text-indigo-500" />
+                                <span>{modalReadingTime.text}</span>
+                                <span className="text-slate-300 dark:text-slate-600">•</span>
+                                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                                  ~{modalReadingTime.words} words
+                                </span>
+                              </span>
+                            );
+                          })()}
+                        </div>
                         <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                           {selectedProject.longDescription || selectedProject.description}
                         </p>

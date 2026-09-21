@@ -20,9 +20,9 @@ export const portfolio: PortfolioData = {
   social: {
     github: 'https://github.com/v4udevelop',
     linkedin: 'https://linkedin.com/in/kimsan-dev',
-    facebook: 'https://facebook.com/v4udevelop',
-    telegram: 'https://t.me/kimsandev',
-    youtube: 'https://youtube.com/@proservers',
+    facebook: 'https://www.facebook.com/share/1HvnoTfyMz/',
+    telegram: 'https://t.me/kim_san145',
+    youtube: 'https://youtube.com/@kimsan2000',
     twitter: 'https://x.com/kimsandev',
   },
 
