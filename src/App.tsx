@@ -24,7 +24,7 @@ import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { CommandPalette } from './components/CommandPalette';
 import { DevTerminal } from './components/DevTerminal';
-import { LiveActivityToast } from './components/LiveActivityToast';
+import { SocialShareModal } from './components/SocialShareModal';
 import { BackToTop } from './components/BackToTop';
 import { FadeInSection } from './components/FadeInSection';
 import { useDynamicSEO } from './hooks/useDynamicSEO';
@@ -40,6 +40,7 @@ export default function App() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isShareCardOpen, setIsShareCardOpen] = useState(false);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -82,6 +83,7 @@ export default function App() {
           toggleTheme={toggleTheme}
           onOpenResume={() => setIsResumeOpen(true)}
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          onOpenShareCard={() => setIsShareCardOpen(true)}
           language={language}
           toggleLanguage={toggleLanguage}
           t={t}
@@ -166,6 +168,7 @@ export default function App() {
           onClose={() => setIsCommandPaletteOpen(false)}
           onOpenResume={() => setIsResumeOpen(true)}
           onOpenTerminal={() => setIsTerminalOpen(true)}
+          onOpenShareCard={() => setIsShareCardOpen(true)}
           theme={theme}
           resolvedTheme={resolvedTheme}
           toggleTheme={toggleTheme}
@@ -183,10 +186,11 @@ export default function App() {
           toggleLanguage={toggleLanguage}
         />
 
-        {/* Dynamic Visitor Counter & Recent Activity Toast Notification */}
-        <LiveActivityToast
-          onOpenResume={() => setIsResumeOpen(true)}
-          onOpenTerminal={() => setIsTerminalOpen(true)}
+        {/* Dynamic Social Media Sharing Card (OpenGraph) Modal */}
+        <SocialShareModal
+          isOpen={isShareCardOpen}
+          onClose={() => setIsShareCardOpen(false)}
+          language={language}
         />
 
         {/* Floating Quick Actions: Back to Top & Dev Terminal */}

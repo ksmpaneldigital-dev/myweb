@@ -20,7 +20,6 @@ import {
 import { portfolio } from '../data/portfolio';
 import { TranslationDictionary } from '../data/translations';
 import { newsletterService } from '../services/newsletterService';
-import { visitorActivityService } from '../services/visitorActivityService';
 import { NewsletterSubscriber } from '../types';
 
 interface FooterProps {
@@ -47,9 +46,6 @@ export const Footer: React.FC<FooterProps> = ({
   const [mySubscribedEmail, setMySubscribedEmail] = useState<string | null>(() =>
     newsletterService.getMySubscribedEmail()
   );
-  const [visitorStats, setVisitorStats] = useState(() =>
-    visitorActivityService.getVisitorStats()
-  );
 
   // Synchronize state with persistent localStorage across browser refreshes and tabs
   useEffect(() => {
@@ -65,13 +61,8 @@ export const Footer: React.FC<FooterProps> = ({
       setMySubscribedEmail(newsletterService.getMySubscribedEmail());
     });
 
-    const unsubStats = visitorActivityService.onStatsChange((stats) => {
-      setVisitorStats(stats);
-    });
-
     return () => {
       unsubscribe();
-      unsubStats();
     };
   }, []);
 
@@ -455,21 +446,6 @@ export const Footer: React.FC<FooterProps> = ({
           <p>
             © {new Date().getFullYear()} {personal.name}. {t.footer.rights}
           </p>
-
-          {/* Live Visitor Stats & Status Badge */}
-          <div className="flex items-center gap-3 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[11px]">
-            <span className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span>{visitorStats.active} active now</span>
-            </span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
-            <span className="font-mono text-slate-600 dark:text-slate-400">
-              {visitorStats.total.toLocaleString()} visitors
-            </span>
-          </div>
 
           <div className="flex items-center gap-1">
             <span>Built with precision in React, Vite & Tailwind CSS</span>

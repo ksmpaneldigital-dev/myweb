@@ -4,7 +4,6 @@ import { portfolio } from '../data/portfolio';
 import { ThemeMode, Language } from '../types';
 import { useToast } from './Toast';
 import { newsletterService } from '../services/newsletterService';
-import { visitorActivityService } from '../services/visitorActivityService';
 
 interface DevTerminalProps {
   isOpen?: boolean;
@@ -32,8 +31,6 @@ const COMMAND_LIST = [
   'contact',
   'hire',
   'resume',
-  'visitors',
-  'activity',
   'newsletter',
   'subscribers',
   'theme dark',
@@ -123,8 +120,6 @@ export const DevTerminal: React.FC<DevTerminalProps> = ({
   • contact        - Display direct email, phone, and messaging handles
   • hire           - Scroll directly to contact inquiry form
   • resume         - Open full interactive CV & export modal
-  • visitors       - Live visitor count & active concurrent readers
-  • activity       - Recent real-time portfolio interaction stream
   • subscribers    - List persisted newsletter subscribers (localStorage)
   • subscribe <em\> - Subscribe email to newsletter via Mock API
   • theme [mode]   - Change appearance (dark | light | system)
@@ -229,36 +224,6 @@ Summary:  ${portfolio.personal.description}`,
         });
         onOpenResume();
         break;
-
-      case 'visitors':
-      case 'counter':
-      case 'stats': {
-        const stats = visitorActivityService.getVisitorStats();
-        newLines.push({
-          id: `out-${Date.now()}`,
-          type: 'output',
-          content: `📊 Live Portfolio Traffic & Visitor Counter:
-  • Total Unique Page Visits : ${stats.total.toLocaleString()}
-  • Active Concurrent Readers: ${stats.active} developer(s) online
-  • Session Status           : Active node connected
-  • Live Activity Feed       : Enabled (occasional toasts appear bottom-left)`,
-        });
-        break;
-      }
-
-      case 'activity':
-      case 'events': {
-        const activities = visitorActivityService.getRecentActivities();
-        const formatted = activities
-          .map((a) => `  [${a.timeAgo.padEnd(8)}] ${a.title} (${a.location}) - ${a.description}`)
-          .join('\n');
-        newLines.push({
-          id: `out-${Date.now()}`,
-          type: 'output',
-          content: `⚡ Recent Portfolio Interactions Stream:\n${formatted}`,
-        });
-        break;
-      }
 
       case 'newsletter':
       case 'subscribers': {

@@ -15,18 +15,18 @@ import {
   Code2,
   Terminal,
   ExternalLink,
-  Activity,
+  Share2,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ThemeMode, Language } from '../types';
 import { useToast } from './Toast';
-import { visitorActivityService } from '../services/visitorActivityService';
 
 interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenResume: () => void;
   onOpenTerminal?: () => void;
+  onOpenShareCard?: () => void;
   theme: ThemeMode;
   resolvedTheme: 'dark' | 'light';
   toggleTheme: () => void;
@@ -49,6 +49,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onClose,
   onOpenResume,
   onOpenTerminal,
+  onOpenShareCard,
   theme,
   resolvedTheme,
   toggleTheme,
@@ -181,15 +182,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       },
     },
     {
-      id: 'action-visitors',
-      title: 'View Live Visitor Counter & Stats',
-      subtitle: `${visitorActivityService.getVisitorStats().total.toLocaleString()} visitors • ${visitorActivityService.getVisitorStats().active} active readers online`,
+      id: 'action-share-card',
+      title: 'Generate Social Sharing Card (OpenGraph)',
+      subtitle: 'Create dynamic 1200x630 share image for LinkedIn, Telegram & X',
       category: 'Actions',
-      icon: <Activity className="w-4 h-4 text-emerald-400" />,
+      icon: <Share2 className="w-4 h-4 text-cyan-400" />,
       action: () => {
         onClose();
-        const stats = visitorActivityService.getVisitorStats();
-        showToast(`🟢 ${stats.active} online • ${stats.total.toLocaleString()} unique visitors`);
+        onOpenShareCard?.();
       },
     },
     {
