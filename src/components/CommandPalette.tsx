@@ -20,6 +20,8 @@ import {
   Facebook,
   Linkedin,
   Youtube,
+  LayoutGrid,
+  List,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ThemeMode, Language } from '../types';
@@ -194,6 +196,32 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       action: () => {
         onClose();
         onOpenShareCard?.();
+      },
+    },
+    {
+      id: 'action-projects-grid',
+      title: 'Projects: Switch to Grid View',
+      subtitle: 'Display project cards in a responsive multi-column grid',
+      category: 'Actions',
+      icon: <LayoutGrid className="w-4 h-4 text-indigo-500" />,
+      action: () => {
+        onClose();
+        const btn = document.getElementById('projects-view-grid-btn');
+        if (btn) btn.click();
+        handleNavigate('projects');
+      },
+    },
+    {
+      id: 'action-projects-list',
+      title: 'Projects: Switch to List View',
+      subtitle: 'Display projects in an expanded horizontal list layout',
+      category: 'Actions',
+      icon: <List className="w-4 h-4 text-indigo-500" />,
+      action: () => {
+        onClose();
+        const btn = document.getElementById('projects-view-list-btn');
+        if (btn) btn.click();
+        handleNavigate('projects');
       },
     },
     {

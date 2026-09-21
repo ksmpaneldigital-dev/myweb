@@ -23,6 +23,8 @@ import {
   Cloud,
   Terminal as TerminalIcon,
   Clock,
+  LayoutGrid,
+  List,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ProjectCategory, ProjectItem } from '../types';
@@ -36,6 +38,7 @@ interface ProjectsProps {
 
 type SortOption = 'featured' | 'newest' | 'az';
 export type TechStackFilter = 'all' | 'react' | 'nodejs' | 'cloud' | 'laravel' | 'python';
+export type ViewMode = 'grid' | 'list';
 
 interface TechStackOption {
   id: TechStackFilter;
@@ -53,11 +56,27 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('proservers_projects_view_mode');
+        if (saved === 'grid' || saved === 'list') return saved;
+      } catch {}
+    }
+    return 'grid';
+  });
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [modalTab, setModalTab] = useState<'details' | 'preview'>('details');
   const [copiedLink, setCopiedLink] = useState(false);
   const { showToast } = useToast();
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    try {
+      localStorage.setItem('proservers_projects_view_mode', mode);
+    } catch {}
+  };
 
   const { projects } = portfolio;
 
@@ -286,20 +305,61 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
               )}
             </div>
 
-            {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
-                {t.projects.sortBy}
-              </span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
+            {/* Controls: Sort & View Mode Toggle */}
+            <div className="flex items-center gap-3 shrink-0 flex-wrap justify-between sm:justify-end">
+              {/* Sort Dropdown */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
+                  {t.projects.sortBy}
+                </span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className="text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                >
+                  <option value="featured">{t.projects.sortFeatured}</option>
+                  <option value="newest">{t.projects.sortNewest}</option>
+                  <option value="az">{t.projects.sortAZ}</option>
+                </select>
+              </div>
+
+              {/* View Mode Toggle: Grid vs List */}
+              <div
+                className="inline-flex items-center p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl border border-slate-200/80 dark:border-slate-700/80"
+                role="group"
+                aria-label="View Mode Toggle"
               >
-                <option value="featured">{t.projects.sortFeatured}</option>
-                <option value="newest">{t.projects.sortNewest}</option>
-                <option value="az">{t.projects.sortAZ}</option>
-              </select>
+                <button
+                  id="projects-view-grid-btn"
+                  type="button"
+                  onClick={() => handleViewModeChange('grid')}
+                  aria-pressed={viewMode === 'grid'}
+                  title={t.projects.gridView}
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                    viewMode === 'grid'
+                      ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>{t.projects.gridView}</span>
+                </button>
+                <button
+                  id="projects-view-list-btn"
+                  type="button"
+                  onClick={() => handleViewModeChange('list')}
+                  aria-pressed={viewMode === 'list'}
+                  title={t.projects.listView}
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                    viewMode === 'list'
+                      ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <List className="w-3.5 h-3.5" />
+                  <span>{t.projects.listView}</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -427,9 +487,13 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
               {t.projects.resetFilters}
             </button>
           </div>
-        ) : (
+        ) : viewMode === 'grid' ? (
           <motion.div
+            key="projects-grid-view"
             layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch"
           >
             <AnimatePresence>
@@ -587,6 +651,176 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                   </Tilt>
                 </motion.div>
               ))}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          /* List View */
+          <motion.div
+            key="projects-list-view"
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex flex-col gap-4 sm:gap-5"
+          >
+            <AnimatePresence>
+              {filteredProjects.map((project) => {
+                const readTime = calculateReadingTime(
+                  [
+                    project.title,
+                    project.longDescription || project.description,
+                    project.metrics,
+                    ...project.tags,
+                  ],
+                  200,
+                  t.projects.readTimeSuffix || 'min read'
+                );
+
+                return (
+                  <motion.div
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full"
+                  >
+                    <div className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 overflow-hidden shadow-sm hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300 p-4 sm:p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
+                      {/* Left Image Thumbnail */}
+                      <div
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setModalTab('details');
+                        }}
+                        className="relative w-full md:w-60 lg:w-72 aspect-[16/10] overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 cursor-pointer"
+                      >
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+
+                        {/* Featured Star Badge */}
+                        {project.featured && (
+                          <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-indigo-600/90 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-md flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" />
+                            <span>Featured</span>
+                          </div>
+                        )}
+
+                        {/* Category Badge */}
+                        <div className="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-md bg-slate-900/80 text-slate-200 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md">
+                          {project.category}
+                        </div>
+                      </div>
+
+                      {/* Middle Details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <h3
+                            onClick={() => {
+                              setSelectedProject(project);
+                              setModalTab('details');
+                            }}
+                            className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors cursor-pointer"
+                          >
+                            {project.title}
+                          </h3>
+
+                          {/* Metrics Pill */}
+                          {project.metrics && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                              <CheckCircle2 className="w-3 h-3" />
+                              <span>{project.metrics}</span>
+                            </span>
+                          )}
+
+                          {/* Reading Time */}
+                          <span
+                            className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/90 px-2 py-0.5 rounded-md border border-slate-200/80 dark:border-slate-700/80"
+                            title={`Estimated reading time: ~${readTime.words} words`}
+                          >
+                            <Clock className="w-3 h-3 text-indigo-500 dark:text-indigo-400" />
+                            <span>{readTime.text}</span>
+                          </span>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-2 md:line-clamp-3 leading-relaxed">
+                          {project.description}
+                        </p>
+
+                        {/* Tags */}
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {project.tags.map((tag) => {
+                            const isTagSelected = selectedTag === tag;
+                            return (
+                              <button
+                                key={tag}
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedTag(isTagSelected ? 'all' : tag);
+                                }}
+                                className={`px-2 py-0.5 rounded-md text-[10px] font-mono transition-colors cursor-pointer border ${
+                                  isTagSelected
+                                    ? 'bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/60 font-bold'
+                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700/60 hover:border-indigo-400 dark:hover:border-indigo-500'
+                                }`}
+                                title={`Filter by tag #${tag}`}
+                              >
+                                #{tag}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Right Actions */}
+                      <div className="shrink-0 flex flex-row md:flex-col items-center md:items-stretch justify-between md:justify-center gap-2 w-full md:w-44 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+                        {project.demoUrl && (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-sm"
+                          >
+                            <span>{t.projects.liveDemo}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedProject(project);
+                            setModalTab('details');
+                          }}
+                          className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+                        >
+                          <Info className="w-3.5 h-3.5 text-indigo-500" />
+                          <span>{t.projects.details}</span>
+                        </button>
+
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            title="View Source on GitHub"
+                          >
+                            <Github className="w-3.5 h-3.5" />
+                            <span>{t.projects.sourceCode}</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </motion.div>
         )}

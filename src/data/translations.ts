@@ -74,6 +74,8 @@ export interface TranslationDictionary {
     sourceCode: string;
     details: string;
     readTimeSuffix: string;
+    gridView: string;
+    listView: string;
     noResults: string;
     resetFilters: string;
   };
@@ -267,6 +269,8 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       sourceCode: 'Source',
       details: 'Architecture Details',
       readTimeSuffix: 'min read',
+      gridView: 'Grid View',
+      listView: 'List View',
       noResults: 'No projects found matching your filters.',
       resetFilters: 'Reset All Filters',
     },
@@ -461,6 +465,8 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       sourceCode: 'កូដប្រភព',
       details: 'ព័ត៌មានលម្អិតអំពីស្ថាបត្យកម្ម',
       readTimeSuffix: 'នាទីអាន',
+      gridView: 'ទិដ្ឋភាពក្រឡា (Grid)',
+      listView: 'ទិដ្ឋភាពបញ្ជី (List)',
       noResults: 'រកមិនឃើញគម្រោងដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ។',
       resetFilters: 'កំណត់តម្រងឡើងវិញ',
     },
