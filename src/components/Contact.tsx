@@ -21,6 +21,7 @@ import {
 import { portfolio } from '../data/portfolio';
 import { TranslationDictionary } from '../data/translations';
 import { useToast } from './Toast';
+import confetti from 'canvas-confetti';
 
 interface ContactProps {
   t: TranslationDictionary;
@@ -152,6 +153,71 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
     }
   };
 
+  const triggerCelebratoryConfetti = () => {
+    // Multi-stage realistic celebratory fireworks & confetti
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      zIndex: 99999,
+    };
+
+    const fire = (particleRatio: number, opts: confetti.Options) => {
+      confetti({
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio),
+      });
+    };
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+      colors: ['#6366f1', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b'],
+    });
+    fire(0.2, {
+      spread: 60,
+      colors: ['#3b82f6', '#06b6d4', '#10b981', '#fbbf24'],
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8,
+      colors: ['#6366f1', '#ec4899', '#3b82f6', '#10b981'],
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2,
+      colors: ['#ffd700', '#ff69b4', '#00ffff'],
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+      colors: ['#8b5cf6', '#6366f1', '#10b981'],
+    });
+
+    // Secondary celebratory bursts from left and right edges after 200ms
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.65 },
+        zIndex: 99999,
+        colors: ['#6366f1', '#a855f7', '#06b6d4', '#10b981'],
+      });
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.65 },
+        zIndex: 99999,
+        colors: ['#ec4899', '#f43f5e', '#f59e0b', '#8b5cf6'],
+      });
+    }, 200);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -191,12 +257,13 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
         setSubmitStatus('success');
         setStatusMessage(t.contact.successMsg);
         showToast(t.contact.successMsg, 'success');
+        triggerCelebratoryConfetti();
         setFormData({
           name: '',
           email: '',
           subject: '',
           projectType: 'Full-Stack Web App',
-          budget: '$2,000 - $5,000',
+          budget: 'Professional Plan ($520)',
           message: '',
         });
       } else {
@@ -207,12 +274,13 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
       setSubmitStatus('success');
       setStatusMessage(t.contact.successMsg);
       showToast(t.contact.successMsg, 'success');
+      triggerCelebratoryConfetti();
       setFormData({
         name: '',
         email: '',
         subject: '',
         projectType: 'Full-Stack Web App',
-        budget: '$2,000 - $5,000',
+        budget: 'Professional Plan ($520)',
         message: '',
       });
     } finally {

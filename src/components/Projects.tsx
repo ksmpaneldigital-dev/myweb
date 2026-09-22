@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import {
   FolderGit2,
@@ -53,6 +53,84 @@ interface TechStackOption {
   activeBorder: string;
   keywords: string[];
 }
+
+// Staggered entrance animation variants for project cards (sliding gracefully from the bottom)
+const projectGridContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.09,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const projectCardVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+    scale: 0.95,
+  },
+  visible: (index: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 260,
+      damping: 24,
+      mass: 0.8,
+      delay: Math.min(index * 0.08, 0.64),
+    },
+  }),
+  exit: {
+    opacity: 0,
+    y: 20,
+    scale: 0.95,
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+};
+
+const projectListContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.04,
+    },
+  },
+};
+
+const projectListCardVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+  },
+  visible: (index: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 260,
+      damping: 24,
+      mass: 0.8,
+      delay: Math.min(index * 0.06, 0.48),
+    },
+  }),
+  exit: {
+    opacity: 0,
+    y: 15,
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export const Projects: React.FC<ProjectsProps> = ({ t }) => {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>('all');
@@ -608,24 +686,25 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
           <motion.div
             key="projects-grid-view"
             layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={projectGridContainerVariants}
+            initial="hidden"
+            animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch"
           >
             <AnimatePresence>
-              {filteredProjects.map((project) => (
+              {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  whileHover={{ y: -6, scale: 1.025 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 350,
-                    damping: 22,
+                  custom={index}
+                  variants={projectCardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  whileHover={{
+                    y: -6,
+                    scale: 1.025,
+                    transition: { type: 'spring', stiffness: 350, damping: 22 },
                   }}
                   className="h-full transform-gpu"
                 >
@@ -798,13 +877,13 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
           <motion.div
             key="projects-list-view"
             layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={projectListContainerVariants}
+            initial="hidden"
+            animate="visible"
             className="flex flex-col gap-4 sm:gap-5"
           >
             <AnimatePresence>
-              {filteredProjects.map((project) => {
+              {filteredProjects.map((project, index) => {
                 const readTime = calculateReadingTime(
                   [
                     project.title,
@@ -820,14 +899,15 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                   <motion.div
                     key={project.id}
                     layout
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 12 }}
-                    whileHover={{ y: -3, scale: 1.012 }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 350,
-                      damping: 22,
+                    custom={index}
+                    variants={projectListCardVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    whileHover={{
+                      y: -3,
+                      scale: 1.012,
+                      transition: { type: 'spring', stiffness: 350, damping: 22 },
                     }}
                     className="w-full transform-gpu"
                   >
