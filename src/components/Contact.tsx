@@ -300,7 +300,7 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
                           {t.contact.telegramLabel}
                         </p>
                         <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-sky-500 transition-colors">
-                          @{social.telegram.split('/').filter(Boolean).pop()?.replace(/^@/, '') || 'kim_san145'}
+                          @{social.telegram.split('/').filter(Boolean).pop()?.replace(/^@/, '') || 'kim_san14t'}
                         </p>
                       </div>
                     </div>

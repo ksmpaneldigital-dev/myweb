@@ -26,6 +26,7 @@ import { CommandPalette } from './components/CommandPalette';
 import { DevTerminal } from './components/DevTerminal';
 import { SocialShareModal } from './components/SocialShareModal';
 import { BackToTop } from './components/BackToTop';
+import { FloatingChat } from './components/FloatingChat';
 import { FadeInSection } from './components/FadeInSection';
 import { useDynamicSEO } from './hooks/useDynamicSEO';
 import { Terminal } from 'lucide-react';
@@ -190,6 +191,12 @@ export default function App() {
         <SocialShareModal
           isOpen={isShareCardOpen}
           onClose={() => setIsShareCardOpen(false)}
+          language={language}
+        />
+
+        {/* Floating Instant Chat Widget */}
+        <FloatingChat
+          onOpenResume={() => setIsResumeOpen(true)}
           language={language}
         />
 
