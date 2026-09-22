@@ -51,7 +51,26 @@ export interface ServiceItem {
   deliverables: string[];
 }
 
+export interface PricingPlan {
+  id: string;
+  name: string;
+  price: number;
+  priceDisplay: string;
+  timeline: string;
+  description: string;
+  popular?: boolean;
+  badge?: string;
+  features: string[];
+  highlight: string;
+  paymentUrl?: string;
+}
+
 export type ProjectCategory = 'all' | 'react' | 'laravel' | 'fullstack' | 'web' | 'app';
+
+export interface ProjectChallenge {
+  challenge: string;
+  solution: string;
+}
 
 export interface ProjectItem {
   id: number;
@@ -65,6 +84,8 @@ export interface ProjectItem {
   githubUrl?: string;
   featured?: boolean;
   metrics?: string;
+  features?: string[];
+  challenges?: ProjectChallenge[];
 }
 
 export interface ExperienceItem {
@@ -143,6 +164,7 @@ export interface PortfolioData {
   };
   skills: SkillItem[];
   services: ServiceItem[];
+  pricingPlans: PricingPlan[];
   projects: ProjectItem[];
   experience: ExperienceItem[];
   education: EducationItem[];

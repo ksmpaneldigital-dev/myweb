@@ -133,6 +133,20 @@ export const Services: React.FC<ServicesProps> = ({ t }) => {
             </motion.div>
           ))}
         </div>
+
+        {/* Link to Pricing Section */}
+        <div className="mt-12 text-center">
+          <div className="inline-flex flex-wrap items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            <span>Looking for transparent, fixed-price milestone packages?</span>
+            <a
+              href="#pricing"
+              className="inline-flex items-center gap-1 font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline underline-offset-4 decoration-indigo-400/50 hover:decoration-indigo-500"
+            >
+              <span>Explore Plan Pricing ($250 / $520 / $760)</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

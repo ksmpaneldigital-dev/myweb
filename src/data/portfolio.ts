@@ -359,6 +359,75 @@ export const portfolio: PortfolioData = {
     },
   ],
 
+  pricingPlans: [
+    {
+      id: 'starter',
+      name: 'Starter / MVP Plan',
+      price: 250,
+      priceDisplay: '$250',
+      timeline: '3–5 Business Days',
+      description: 'Perfect for landing pages, personal branding, MVP prototypes, and responsive modern web interfaces with optimal speed.',
+      popular: false,
+      badge: 'Quick Launch',
+      highlight: 'Best for MVPs & High-Converting Landing Pages',
+      paymentUrl: 'https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true',
+      features: [
+        '1–3 Modern Responsive Pages / High-Converting Landing Page',
+        'Built with React 19, TypeScript & Tailwind CSS',
+        'Mobile-First Layout with 95+ Google Lighthouse Score',
+        'Interactive Contact Form & Telegram API Instant Notification',
+        'SEO Metadata, Social OpenGraph Cards & Schema Markup',
+        '14 Days Dedicated Post-Launch Bug Fix Support',
+        'Clean Source Code & GitHub Repository Handover',
+        'Free Cloud Deployment (Cloud Run, Vercel, or Netlify)',
+      ],
+    },
+    {
+      id: 'professional',
+      name: 'Professional Full-Stack Plan',
+      price: 520,
+      priceDisplay: '$520',
+      timeline: '1–2 Weeks',
+      description: 'Complete full-stack software application with robust relational database, custom backend APIs, authentication, and admin tools.',
+      popular: true,
+      badge: 'Most Popular',
+      highlight: 'Best for Production Businesses & SaaS MVPs',
+      paymentUrl: 'https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true',
+      features: [
+        'Everything in Starter Plan included',
+        'Full-Stack System: React / Next.js Frontend + Laravel / Node.js Backend',
+        'Relational Database Architecture (PostgreSQL / MySQL / Redis)',
+        'User Authentication, Session Security & Role-Based Access Control (RBAC)',
+        'Intuitive Admin Management Dashboard with Real-Time KPIs & Analytics',
+        'Payment Gateway Integration (Stripe, Bakong KHQR, ABA Pay)',
+        'Data Export Engine (PDF Invoices, CSV / Excel Generation)',
+        '30 Days Extended Post-Launch Warranty & Performance Tuning',
+      ],
+    },
+    {
+      id: 'enterprise',
+      name: 'Enterprise / Custom Platform',
+      price: 760,
+      priceDisplay: '$760',
+      timeline: '2–3 Weeks',
+      description: 'Comprehensive software solution for scalable platforms, microservices architecture, complex workflows, and multi-tenant systems.',
+      popular: false,
+      badge: 'Complete Solution',
+      highlight: 'Best for Scalable Enterprise & Multi-User Portals',
+      paymentUrl: 'https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true',
+      features: [
+        'Everything in Professional Plan included',
+        'Advanced Multi-Tenant Architecture or Scalable Microservices',
+        'Real-Time WebSockets Telemetry & Event Streaming Pipelines',
+        'Enterprise Security Hardening, Audit Logs & Rate Limiting',
+        'Automated Background Workers, Queue Processors & Scheduled Crons',
+        'Interactive Swagger / OpenAPI Specs & Complete Architecture Docs',
+        'Priority Turnaround & Direct Dedicated Communication Channel',
+        '60 Days Dedicated SLA Maintenance & Priority Bug Resolution',
+      ],
+    },
+  ],
+
   projects: [
     {
       id: 1,
@@ -374,6 +443,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/nexus-store',
       featured: true,
       metrics: '350ms Page Load • 99.9% Uptime',
+      features: [
+        'Dynamic catalog filtering with instantaneous faceted search by price, brand, and category',
+        'Real-time multi-currency converter and dynamic tax calculation engine',
+        'Persistent shopping cart synchronization across devices with optimistic UI updates',
+        'Secure checkout flow with Stripe & Bakong KHQR payment integration',
+        'Admin management panel for inventory tracking, order dispatch, and customer analytics',
+      ],
+      challenges: [
+        {
+          challenge: 'Inventory race conditions when multiple shoppers checked out the last remaining stock units simultaneously.',
+          solution: 'Implemented database row-level locking paired with Redis distributed locks during checkout finalization, preventing double allocation.',
+        },
+        {
+          challenge: 'High latency on complex catalog queries with multiple faceted taxonomy filters.',
+          solution: 'Added composite indexing in MySQL and an in-memory Redis caching layer for hot search combinations, reducing query times from 420ms to 24ms.',
+        },
+      ],
     },
     {
       id: 2,
@@ -389,6 +475,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/cloudpulse-dashboard',
       featured: true,
       metrics: '12K+ Daily Events • Real-Time Sync',
+      features: [
+        'Real-time telemetry streams visualizing 12,000+ daily platform events with WebSockets',
+        'Customizable drag-and-drop dashboard grid with persistent layout preferences',
+        'Granular role-based access control (RBAC) with detailed audit trail logging',
+        'Automated scheduled data export to PDF, CSV, and secure webhook endpoints',
+        'Dark/Light high-contrast visualizer theme with accessible data color scales',
+      ],
+      challenges: [
+        {
+          challenge: 'Browser UI thread stutter when streaming 100+ telemetry events per second into interactive charts.',
+          solution: 'Implemented data batching and windowed throttling with Web Workers, keeping chart rendering consistently at 60 FPS.',
+        },
+        {
+          challenge: 'State divergence across collaborative administrators viewing simultaneous tenant updates.',
+          solution: 'Adopted an optimistic concurrency model backed by timestamped server reconciliation and delta event broadcasting.',
+        },
+      ],
     },
     {
       id: 3,
@@ -404,6 +507,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/payswift-gateway',
       featured: true,
       metrics: '99.99% Transaction Reliability',
+      features: [
+        'High-throughput merchant API processing multi-currency payouts and settlements',
+        'Automated idempotent webhook dispatcher with exponential backoff retries',
+        'Real-time financial ledger with double-entry bookkeeping validation',
+        'Tokenized card vault with end-to-end encryption compliant with PCI-DSS guidelines',
+        'Interactive merchant developer sandbox with instant API key rotation and request inspection',
+      ],
+      challenges: [
+        {
+          challenge: 'Ensuring zero duplicate charges on network timeouts during third-party banking gateway handshakes.',
+          solution: 'Enforced strict idempotency keys stored in Redis cache with atomic checks before executing any monetary transaction.',
+        },
+        {
+          challenge: 'Generating complex monthly settlement reconciliation reports across millions of transaction records.',
+          solution: 'Engineered queued asynchronous chunk processing in Laravel workers using PostgreSQL read replicas and streaming cursors.',
+        },
+      ],
     },
     {
       id: 4,
@@ -419,6 +539,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/taskmatrix-app',
       featured: false,
       metrics: '5,000+ Active Tasks',
+      features: [
+        'Interactive Kanban board with fluid drag-and-drop column transitions and task sorting',
+        'Sprint planning visualizer with dynamic burn-down charts and velocity tracking',
+        'Real-time collaborative card editing and presence indicators',
+        'Rich text issue description editor with Markdown preview and file attachments',
+        'Configurable workflow automation triggers and Slack / Discord notification webhooks',
+      ],
+      challenges: [
+        {
+          challenge: 'Managing offline edits without data loss when team members reconnect after network dropouts.',
+          solution: 'Integrated IndexedDB local persistence with a conflict-resolution merge queue that syncs pending actions on reconnection.',
+        },
+        {
+          challenge: 'Smooth drag-and-drop performance when boards contain hundreds of task cards.',
+          solution: 'Virtualization of board columns and lightweight memoized card components preventing redundant re-renders.',
+        },
+      ],
     },
     {
       id: 5,
@@ -434,6 +571,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/krono-automation',
       featured: false,
       metrics: '10x Faster Sync Speeds',
+      features: [
+        'System tray daemon monitoring local directories for automated document ingest',
+        'High-speed spreadsheet parser extracting structured financial entries into SQLite',
+        'Encrypted cloud synchronization with delta file chunking to conserve network bandwidth',
+        'Configurable cron-like rule engine for automated report generation and dispatch',
+        'Low system footprint consuming under 45MB RAM in idle background state',
+      ],
+      challenges: [
+        {
+          challenge: 'Handling corrupted or malformed spreadsheet files without crashing the background worker process.',
+          solution: 'Wrapped parser pipelines in isolated worker threads with structured schema validation and automatic quarantine logging.',
+        },
+        {
+          challenge: 'Minimizing battery and CPU drain while polling file system changes across large directory trees.',
+          solution: 'Replaced interval polling with native OS file system event hooks (ReadDirectoryChangesW / inotify) with debounce filters.',
+        },
+      ],
     },
     {
       id: 6,
@@ -449,6 +603,23 @@ export const portfolio: PortfolioData = {
       githubUrl: 'https://github.com/v4udevelop/devblog-cms',
       featured: false,
       metrics: '100/100 Lighthouse Performance',
+      features: [
+        'Dual-pane split Markdown editor with instant syntax highlighting and live preview',
+        'Automatic table of contents generation and reading time calculation',
+        'Responsive image pipeline with automated srcset generation and WebP conversion',
+        'Edge-cached headless REST API delivering articles under 50ms worldwide',
+        'Full-text search powered by trie indexing and customizable taxonomy tags',
+      ],
+      challenges: [
+        {
+          challenge: 'Preventing Cross-Site Scripting (XSS) in user-contributed Markdown while allowing embedded code syntax.',
+          solution: 'Configured DOMPurify sanitization rules paired with strict Content Security Policy (CSP) headers and sandboxed preview execution.',
+        },
+        {
+          challenge: 'High server load during traffic spikes on trending articles.',
+          solution: 'Implemented stale-while-revalidate edge caching with Cloudflare and Redis cache tags, ensuring 99.8% cache hit ratios.',
+        },
+      ],
     },
   ],
 

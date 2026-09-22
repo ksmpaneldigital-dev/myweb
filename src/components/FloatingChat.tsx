@@ -78,6 +78,10 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ onOpenResume, langua
       label: language === 'km' ? '🚀 សាកសួរអំពីការងារ / ជួល' : '🚀 Inquire About Hiring',
       text: 'Hello Kim San, are you currently available for freelance or contract work?',
     },
+    {
+      label: language === 'km' ? '🏷️ សាកសួរតម្លៃគម្រោង ($250 / $520 / $760)' : '🏷️ Inquire About Pricing Plans ($250 / $520 / $760)',
+      text: 'Hi Kim San, I saw your pricing plans ($250, $520, $760) and would like to discuss which tier best fits my project requirements.',
+    },
   ];
 
   useEffect(() => {
@@ -126,7 +130,19 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ onOpenResume, langua
       let replyText = '';
       let quickActions: { label: string; action: () => void }[] | undefined;
 
-      if (lower.includes('hire') || lower.includes('available') || lower.includes('project') || lower.includes('contact') || lower.includes('contract')) {
+      if (lower.includes('price') || lower.includes('pricing') || lower.includes('plan') || lower.includes('250') || lower.includes('520') || lower.includes('760') || lower.includes('payway') || lower.includes('aba')) {
+        replyText = `My project plans start at $250 (Starter/MVP), $520 (Professional Full-Stack), and $760 (Enterprise/Custom). You can also complete payments or pay milestone deposits directly via ABA PayWay / KHQR (Account: 002292898 - Kim San).`;
+        quickActions = [
+          {
+            label: '💳 Open ABA PayWay Link',
+            action: () => window.open('https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true', '_blank', 'noopener,noreferrer'),
+          },
+          {
+            label: '💬 Discuss Plan on Telegram',
+            action: () => handleOpenTelegram(query),
+          },
+        ];
+      } else if (lower.includes('hire') || lower.includes('available') || lower.includes('project') || lower.includes('contact') || lower.includes('contract')) {
         replyText = `I am currently ${personal.availability} for projects and full-stack development. Let's chat directly on Telegram for immediate collaboration!`;
         quickActions = [
           {

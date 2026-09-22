@@ -22,6 +22,8 @@ import {
   Youtube,
   LayoutGrid,
   List,
+  DollarSign,
+  CreditCard,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ThemeMode, Language } from '../types';
@@ -113,6 +115,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'Navigation',
       icon: <ArrowRight className="w-4 h-4 text-indigo-500" />,
       action: () => handleNavigate('services'),
+    },
+    {
+      id: 'nav-pricing',
+      title: 'Go to Pricing & Plans ($250 / $520 / $760)',
+      category: 'Navigation',
+      icon: <DollarSign className="w-4 h-4 text-emerald-500" />,
+      action: () => handleNavigate('pricing'),
     },
     {
       id: 'nav-projects',
@@ -267,6 +276,21 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       action: () => {
         navigator.clipboard.writeText(portfolio.personal.phone);
         showToast('Phone number copied to clipboard!');
+        onClose();
+      },
+    },
+    {
+      id: 'action-payway',
+      title: 'Select Plan & Pay via ABA PayWay / KHQR',
+      subtitle: 'Open direct dynamic payment link (002292898)',
+      category: 'Actions',
+      icon: <CreditCard className="w-4 h-4 text-indigo-400" />,
+      action: () => {
+        window.open(
+          'https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true',
+          '_blank',
+          'noopener,noreferrer'
+        );
         onClose();
       },
     },

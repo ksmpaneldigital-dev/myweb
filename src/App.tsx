@@ -13,6 +13,7 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Skills } from './components/Skills';
 import { Services } from './components/Services';
+import { Pricing } from './components/Pricing';
 import { Projects } from './components/Projects';
 import { CodeShowcase } from './components/CodeShowcase';
 import { Experience } from './components/Experience';
@@ -111,6 +112,11 @@ export default function App() {
           {/* 4. Services Section */}
           <FadeInSection>
             <Services t={t} />
+          </FadeInSection>
+
+          {/* 4b. Pricing Plans Section */}
+          <FadeInSection>
+            <Pricing t={t} />
           </FadeInSection>
 
           {/* 5. Projects Section */}

@@ -25,6 +25,9 @@ import {
   Clock,
   LayoutGrid,
   List,
+  ListChecks,
+  Lightbulb,
+  Wrench,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { ProjectCategory, ProjectItem } from '../types';
@@ -88,6 +91,27 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Lock body scroll and listen for Escape key when project modal is open
+  useEffect(() => {
+    const handleModalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedProject) {
+        setSelectedProject(null);
+      }
+    };
+
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleModalKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleModalKeyDown);
+    };
+  }, [selectedProject]);
 
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
@@ -597,15 +621,20 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.25 }}
-                  className="h-full"
+                  whileHover={{ y: -6, scale: 1.025 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 350,
+                    damping: 22,
+                  }}
+                  className="h-full transform-gpu"
                 >
                   <Tilt
-                    tiltMaxAngleX={8}
-                    tiltMaxAngleY={8}
+                    tiltMaxAngleX={6}
+                    tiltMaxAngleY={6}
                     perspective={1000}
-                    scale={1.02}
-                    transitionSpeed={1000}
+                    scale={1.01}
+                    transitionSpeed={500}
                     gyroscope={true}
                     glareEnable={true}
                     glareMaxOpacity={0.12}
@@ -614,7 +643,22 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                     glareBorderRadius="16px"
                     className="h-full rounded-2xl"
                   >
-                    <div className="group flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 overflow-hidden shadow-sm hover:border-indigo-500/50 hover:shadow-2xl transition-all duration-300 h-full">
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setModalTab('details');
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setSelectedProject(project);
+                          setModalTab('details');
+                        }
+                      }}
+                      className="group flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 overflow-hidden shadow-sm hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 h-full cursor-pointer"
+                    >
                       <div>
                         {/* Project Image Preview with Overlay */}
                         <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -705,7 +749,8 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                       <div className="px-5 py-3.5 sm:px-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setSelectedProject(project);
                             setModalTab('details');
                           }}
@@ -721,6 +766,7 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                               href={project.githubUrl}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
                               className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                               title="View Source on GitHub"
                             >
@@ -732,6 +778,7 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                               href={project.demoUrl}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
                               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-sm"
                             >
                               <span>{t.projects.liveDemo}</span>
@@ -776,17 +823,33 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 12 }}
-                    transition={{ duration: 0.2 }}
-                    className="w-full"
+                    whileHover={{ y: -3, scale: 1.012 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 350,
+                      damping: 22,
+                    }}
+                    className="w-full transform-gpu"
                   >
-                    <div className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 overflow-hidden shadow-sm hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300 p-4 sm:p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
-                      {/* Left Image Thumbnail */}
-                      <div
-                        onClick={() => {
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setModalTab('details');
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
                           setSelectedProject(project);
                           setModalTab('details');
-                        }}
-                        className="relative w-full md:w-60 lg:w-72 aspect-[16/10] overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 cursor-pointer"
+                        }
+                      }}
+                      className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 overflow-hidden shadow-sm hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 p-4 sm:p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between cursor-pointer"
+                    >
+                      {/* Left Image Thumbnail */}
+                      <div
+                        className="relative w-full md:w-60 lg:w-72 aspect-[16/10] overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0"
                       >
                         <img
                           src={project.image}
@@ -878,6 +941,7 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                             href={project.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-sm"
                           >
                             <span>{t.projects.liveDemo}</span>
@@ -887,7 +951,8 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
 
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setSelectedProject(project);
                             setModalTab('details');
                           }}
@@ -902,6 +967,7 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                             title="View Source on GitHub"
                           >
@@ -1026,13 +1092,55 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                 <div className="flex-1 overflow-y-auto p-6 space-y-6">
                   {modalTab === 'details' ? (
                     <>
-                      {/* Banner Image */}
-                      <div className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-                        <img
-                          src={selectedProject.image}
-                          alt={selectedProject.title}
-                          className="w-full h-full object-cover"
-                        />
+                      {/* Banner Image & Direct Action Bar */}
+                      <div className="space-y-4">
+                        <div className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900">
+                          <img
+                            src={selectedProject.image}
+                            alt={selectedProject.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80" />
+
+                          {/* Category & Featured Pills */}
+                          <div className="absolute top-3 left-3 flex items-center gap-2">
+                            <span className="px-2.5 py-1 rounded-lg bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-mono uppercase tracking-wider border border-slate-700/60">
+                              {selectedProject.category}
+                            </span>
+                            {selectedProject.featured && (
+                              <span className="px-2.5 py-1 rounded-lg bg-indigo-600/90 text-white text-[11px] font-bold uppercase tracking-wider backdrop-blur-md flex items-center gap-1">
+                                <Sparkles className="w-3 h-3" />
+                                <span>Featured</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Direct Links Floating on Banner */}
+                          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                            {selectedProject.githubUrl && (
+                              <a
+                                href={selectedProject.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700/80 backdrop-blur-md transition-colors"
+                              >
+                                <Github className="w-3.5 h-3.5" />
+                                <span>Source Code</span>
+                              </a>
+                            )}
+                            {selectedProject.demoUrl && (
+                              <a
+                                href={selectedProject.demoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 backdrop-blur-md transition-colors"
+                              >
+                                <span>Live Demo</span>
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       {/* Detailed Description */}
@@ -1047,6 +1155,8 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                                 selectedProject.title,
                                 selectedProject.longDescription || selectedProject.description,
                                 selectedProject.metrics,
+                                ...(selectedProject.features || []),
+                                ...(selectedProject.challenges?.map(c => `${c.challenge} ${c.solution}`) || []),
                                 ...selectedProject.tags,
                               ],
                               190,
@@ -1083,6 +1193,70 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                             <p className="text-xs text-emerald-600 dark:text-emerald-300">
                               {selectedProject.metrics}
                             </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Key Features & Capabilities */}
+                      {selectedProject.features && selectedProject.features.length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="p-1 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                              <ListChecks className="w-4 h-4" />
+                            </div>
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                              Key Features & Functional Highlights
+                            </h4>
+                          </div>
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            {selectedProject.features.map((feature, idx) => (
+                              <li
+                                key={idx}
+                                className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-snug"
+                              >
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Technical Challenges Overcome */}
+                      {selectedProject.challenges && selectedProject.challenges.length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="p-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                              <Lightbulb className="w-4 h-4" />
+                            </div>
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                              Technical Challenges & Engineering Solutions
+                            </h4>
+                          </div>
+                          <div className="space-y-3">
+                            {selectedProject.challenges.map((item, idx) => (
+                              <div
+                                key={idx}
+                                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 space-y-2.5"
+                              >
+                                <div className="flex items-start gap-2.5">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 shrink-0">
+                                    Challenge
+                                  </span>
+                                  <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 leading-snug">
+                                    {item.challenge}
+                                  </p>
+                                </div>
+                                <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 shrink-0">
+                                    Solution
+                                  </span>
+                                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    {item.solution}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
@@ -1170,29 +1344,40 @@ export const Projects: React.FC<ProjectsProps> = ({ t }) => {
                 {/* Modal Footer */}
                 <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90">
                   <div className="flex items-center gap-2">
-                    {selectedProject.githubUrl && (
+                    {selectedProject.githubUrl ? (
                       <a
                         href={selectedProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 transition-colors"
+                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 transition-colors"
                       >
-                        <Github className="w-3.5 h-3.5" />
-                        <span>View Repository</span>
+                        <Github className="w-4 h-4" />
+                        <span>Source Code</span>
                       </a>
+                    ) : (
+                      <span className="text-xs text-slate-400 font-mono">
+                        Proprietary / Internal Repository
+                      </span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProject(null)}
+                      className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                    >
+                      Close
+                    </button>
                     {selectedProject.demoUrl && (
                       <a
                         href={selectedProject.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-md"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-md shadow-indigo-600/20"
                       >
                         <span>Open Live Demo</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>

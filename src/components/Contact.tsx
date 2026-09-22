@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import {
   Mail,
@@ -16,6 +16,7 @@ import {
   ExternalLink,
   Facebook,
   Youtube,
+  CreditCard,
 } from 'lucide-react';
 import { portfolio } from '../data/portfolio';
 import { TranslationDictionary } from '../data/translations';
@@ -50,10 +51,10 @@ const PROJECT_TYPES = [
 ];
 
 const BUDGET_RANGES = [
-  '<$2,000',
-  '$2,000 - $5,000',
-  '$5,000 - $10,000',
-  '$10,000+',
+  'Starter Plan ($250)',
+  'Professional Plan ($520)',
+  'Enterprise Plan ($760)',
+  'Custom Scope ($1,000+)',
 ];
 
 export const Contact: React.FC<ContactProps> = ({ t }) => {
@@ -65,9 +66,30 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
     email: '',
     subject: '',
     projectType: 'Full-Stack Web App',
-    budget: '$2,000 - $5,000',
+    budget: 'Professional Plan ($520)',
     message: '',
   });
+
+  // Listen for plan selection from Pricing cards
+  useEffect(() => {
+    const handleSelectPricingPlan = (e: CustomEvent<{ planName: string; planPrice: string; planBudget: string }>) => {
+      if (e.detail) {
+        setFormData((prev) => ({
+          ...prev,
+          subject: `Project Inquiry — ${e.detail.planName} (${e.detail.planPrice})`,
+          budget: e.detail.planBudget,
+          message:
+            prev.message ||
+            `Hello Kim San, I am interested in discussing your ${e.detail.planName} (${e.detail.planPrice}) for my upcoming project.`,
+        }));
+      }
+    };
+
+    window.addEventListener('select-pricing-plan' as any, handleSelectPricingPlan as any);
+    return () => {
+      window.removeEventListener('select-pricing-plan' as any, handleSelectPricingPlan as any);
+    };
+  }, []);
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -372,6 +394,29 @@ export const Contact: React.FC<ContactProps> = ({ t }) => {
                     </p>
                   </div>
                 </div>
+
+                {/* ABA PayWay Instant Payment Link */}
+                <a
+                  href="https://link.payway.com.kh/aba?id=18E2ED0EE307&code=461423&acc=002292898&dynamic=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/60 hover:border-indigo-400 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shrink-0">
+                      <CreditCard className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">
+                        ABA PayWay / Bakong KHQR
+                      </p>
+                      <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        002292898 (Kim San)
+                      </p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-indigo-500 group-hover:translate-x-0.5 transition-transform" />
+                </a>
               </div>
 
               {/* Turnaround Badge */}

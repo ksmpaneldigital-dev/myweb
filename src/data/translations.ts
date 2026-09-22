@@ -4,6 +4,7 @@ export interface TranslationDictionary {
     about: string;
     skills: string;
     services: string;
+    pricing: string;
     projects: string;
     experience: string;
     education: string;
@@ -57,6 +58,21 @@ export interface TranslationDictionary {
     deliverables: string;
     requestService: string;
     inquireNow: string;
+  };
+  pricing: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    choosePlan: string;
+    payWithAba: string;
+    inquireTelegram: string;
+    deliveryTime: string;
+    whatsIncluded: string;
+    popularBadge: string;
+    customPlanQuestion: string;
+    customPlanCta: string;
+    fixedMilestoneNote: string;
+    perProject: string;
   };
   projects: {
     badge: string;
@@ -196,6 +212,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       about: 'About',
       skills: 'Skills',
       services: 'Services',
+      pricing: 'Pricing',
       projects: 'Projects',
       experience: 'Experience',
       education: 'Education',
@@ -254,6 +271,21 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       deliverables: 'Included Deliverables:',
       requestService: 'Request This Service',
       inquireNow: 'Inquire for This Service',
+    },
+    pricing: {
+      badge: 'Transparent Investment',
+      title: 'Project Pricing & Development Plans',
+      subtitle: 'Fixed-price milestone contracts engineered for predictability, transparent deliverables, and zero hidden fees.',
+      choosePlan: 'Select Plan & Inquire',
+      payWithAba: 'Pay via ABA PayWay / KHQR',
+      inquireTelegram: 'Inquire on Telegram',
+      deliveryTime: 'Turnaround Timeline:',
+      whatsIncluded: 'Scope & Deliverables:',
+      popularBadge: 'Most Popular',
+      customPlanQuestion: 'Need a custom scope, technical audit, or ongoing monthly retainer?',
+      customPlanCta: 'Request Custom Proposal',
+      fixedMilestoneNote: 'All plans include clean source code, Git repository handover, and dedicated post-launch warranty.',
+      perProject: '/ project',
     },
     projects: {
       badge: 'Featured Portfolio',
@@ -394,6 +426,7 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       about: 'អំពីខ្ញុំ',
       skills: 'ជំនាញបច្ចេកទេស',
       services: 'សេវាកម្ម',
+      pricing: 'តម្លៃគម្រោង',
       projects: 'គម្រោងការងារ',
       experience: 'បទពិសោធន៍',
       education: 'ការអប់រំ',
@@ -452,6 +485,21 @@ export const translations: Record<'en' | 'km', TranslationDictionary> = {
       deliverables: 'លទ្ធផលដែលទទួលបាន៖',
       requestService: 'ស្នើសុំសេវាកម្មនេះ',
       inquireNow: 'សាកសួរព័ត៌មានអំពីសេវាកម្មនេះ',
+    },
+    pricing: {
+      badge: 'ការវិនិយោគប្រកបដោយតម្លាភាព',
+      title: 'តម្លៃគម្រោង និងកញ្ចប់អភិវឌ្ឍន៍កម្មវិធី',
+      subtitle: 'កិច្ចសន្យាតាមដំណាក់កាលការងារច្បាស់លាស់ ដោយគ្មានការចំណាយលាក់កំបាំង ធានាគុណភាពកូដស្អាត និងទំនុកចិត្តខ្ពស់។',
+      choosePlan: 'ជ្រើសរើសកញ្ចប់ & សាកសួរ',
+      payWithAba: 'ទូទាត់តាម ABA PayWay / KHQR',
+      inquireTelegram: 'សាកសួរតាម Telegram',
+      deliveryTime: 'រយៈពេលបញ្ចប់ការងារ៖',
+      whatsIncluded: 'វិសាលភាព & លទ្ធផលការងារ៖',
+      popularBadge: 'ពេញនិយមបំផុត',
+      customPlanQuestion: 'ត្រូវការវិសាលភាពការងារពិសេស ឬជួលជាប្រចាំខែ?',
+      customPlanCta: 'ស្នើសុំសំណើគម្រោងផ្ទាល់ខ្លួន',
+      fixedMilestoneNote: 'គ្រប់កញ្ចប់ទាំងអស់រួមបញ្ចូលកូដប្រភពដើម ការផ្ទេរ GitHub Repository និងការធានាថែទាំក្រោយដាក់ឱ្យដំណើរការ។',
+      perProject: '/ គម្រោង',
     },
     projects: {
       badge: 'ផលប័ត្រស្នាដៃ',
