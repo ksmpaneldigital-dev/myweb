@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for myweb-l-6o0w on 2026-10-01T08:04:24Z
+# fly.toml app configuration file generated for myweb-kcf0da on 2026-10-04T23:22:49Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'myweb-l-6o0w'
+app = 'myweb-kcf0da'
 primary_region = 'ams'
 
 [build]
